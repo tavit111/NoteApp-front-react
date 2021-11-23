@@ -81,8 +81,8 @@ class Form extends React.Component {
         )
     }
 
-    renderButton = (lable)=>{
-        return  <Button  onClick={this.handleSubmit} lable={lable}/>
+    renderButton = (lable, type="submit", color="primary", onClick=null)=>{
+        return  <Button lable={lable} type={type} color={color} onClick={onClick} />
     }
 }
  

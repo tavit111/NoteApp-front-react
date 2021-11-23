@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './common/form';
 import Joi from 'joi';
 import noteService from "../services/noteServices";
+import Button from "./common/button";
 
 
 class NoteForm extends Form {
@@ -14,8 +15,7 @@ class NoteForm extends Form {
     }
     
     componentDidMount() {
-        if(this.props.match.params.id !== "new")
-            this.populateNote();
+        this.populateNote();
     }
 
     schema = Joi.object({
@@ -24,6 +24,9 @@ class NoteForm extends Form {
     })
 
     populateNote = async()=>{
+        if(this.props.match.params.id === "new")
+            return;
+
         try{
             const {id} = this.props.match.params;
             const {data: note} = await noteService.getNote(id);
@@ -57,13 +60,25 @@ class NoteForm extends Form {
         }
     }
 
+    handleDelete = async ()=>{
+        const {id} = this.props.match.params;
+
+        try {
+            await noteService.deleteNote(id);
+            this.props.history.push("/notes");
+        } catch (ex) {
+            
+        }
+    }
+
     render() {
         return (
-        <form className="p-3">
-            {this.renderInput("title", "Title")}
-            {this.renderTextArea("body", "Note", 999)}
-            {this.renderButton("Save")}
-        </form>   
+            <form onSubmit={this.handleSubmit} className="p-3">
+                {this.renderInput("title", "Title")}
+                {this.renderTextArea("body", "Note", 999)}
+                {this.renderButton("Save")}
+                {this.renderButton("Delete", "button", 'danger', this.handleDelete)}
+            </form>
         )
     }
 

@@ -43,6 +43,6 @@ class App extends React.Component {
 export default App;
 
 // TO DO:
-// - make note
-// - delete note
+// - add delete note outside
+// - compare error handling with movie forms
 // -conditionla rendering redirect wherer you came from
