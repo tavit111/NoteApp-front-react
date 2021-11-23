@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
 import ListGroutps from './common/listGroup';
-import {getNotes} from '../services/noteServices';
+import noteService from '../services/noteServices';
 
 
 // THINKING ABOUT: makien lsitGroup an base class which will extend this class
@@ -17,12 +17,12 @@ class ListNotes extends React.Component {
     }
 
     populateNotes = async ()=>{
-        const {data: notes} = await getNotes();
+        const {data: notes} = await noteService.getNotes();
         this.setState({notes});
     }
 
     renderDate = timestamp => {
-        return moment(timestamp).startOf('day').fromNow();
+        return moment(timestamp).fromNow();
     }
 
     renderCard = (note) =>{

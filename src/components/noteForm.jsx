@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from './common/form';
 import Joi from 'joi';
-import {getNote} from "../services/noteServices";
+import noteService from "../services/noteServices";
 
 
 class NoteForm extends Form {
@@ -14,7 +14,8 @@ class NoteForm extends Form {
     }
     
     componentDidMount() {
-        this.populateNote();
+        if(this.props.match.params.id !== "new")
+            this.populateNote();
     }
 
     schema = Joi.object({
@@ -23,10 +24,15 @@ class NoteForm extends Form {
     })
 
     populateNote = async()=>{
-        const {id} = this.props.match.params;
-        const {data: note} = await getNote(id);
-        const data = this.mapToViewModel(note);
-        this.setState({data});
+        try{
+            const {id} = this.props.match.params;
+            const {data: note} = await noteService.getNote(id);
+            const data = this.mapToViewModel(note);
+            this.setState({data});
+        }catch(ex){
+            // don't work
+            console.log(ex.response);
+        }
     }
 
     mapToViewModel = (data)=>{
@@ -36,9 +42,19 @@ class NoteForm extends Form {
         }
     }
 
-    doSubmit = ()=>{
-        this.props.history.push("/notes");
-        console.log("do submit");
+    doSubmit = async ()=>{
+        const {title, body} = this.state.data;
+        const {id} = this.props.match.params;
+        try {
+            if(id === "new")
+                await noteService.createNote(title, body);
+            else
+                await noteService.updateNote(id, title, body);
+            
+            this.props.history.push('/notes');
+        } catch (ex) {
+            
+        }
     }
 
     render() {
