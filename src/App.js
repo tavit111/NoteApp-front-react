@@ -34,6 +34,7 @@ class App extends React.Component {
             path="/register"
             component={RegisterForm}
           />
+          {/* <Redirect from="/" to="/notes" />  */}
         </Switch>
       </React.Fragment>
     );
@@ -43,6 +44,6 @@ class App extends React.Component {
 export default App;
 
 // TO DO:
-// - add delete note outside
+// - remove delete button when creating new note
 // - compare error handling with movie forms
 // -conditionla rendering redirect wherer you came from
