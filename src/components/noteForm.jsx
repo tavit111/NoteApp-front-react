@@ -2,7 +2,6 @@ import React from 'react';
 import Form from './common/form';
 import Joi from 'joi';
 import noteService from "../services/noteServices";
-import Button from "./common/button";
 
 
 class NoteForm extends Form {
@@ -32,9 +31,9 @@ class NoteForm extends Form {
             const {data: note} = await noteService.getNote(id);
             const data = this.mapToViewModel(note);
             this.setState({data});
-        }catch(ex){
-            // don't work
-            console.log(ex.response);
+        }catch(er){
+            if(er.response && er.response.status === 404)
+                this.props.history.replace("/not-found");
         }
     }
 
@@ -72,12 +71,16 @@ class NoteForm extends Form {
     }
 
     render() {
+        const {id} = this.props.match.params;
+
         return (
             <form onSubmit={this.handleSubmit} className="p-3">
                 {this.renderInput("title", "Title")}
-                {this.renderTextArea("body", "Note", 999)}
-                {this.renderButton("Save")}
-                {this.renderButton("Delete", "button", 'danger', this.handleDelete)}
+                {this.renderTextArea("body", "Write a note", 999)}
+                <div className="d-flex">
+                    {this.renderButton("Save")}
+                    {id !== "new" && this.renderButton("Delete", "button", 'danger', this.handleDelete)}
+                </div>
             </form>
         )
     }

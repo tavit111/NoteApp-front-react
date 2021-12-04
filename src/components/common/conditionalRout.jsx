@@ -4,16 +4,13 @@ import {Route, Redirect} from 'react-router-dom';
 import auth from '../../services/authService'
 
 
-const ConditionalRout = ({path, on: condition, component: Component, rendre, ...rest}) => {
-    const user = auth.getCurrentUser();
-
+const ConditionalRout = ({path, on: condition, redirect, component: Component, rendre, ...rest}) => {
 
     return <Route
     {...rest}
-    path={path}
-    render={ props => {
+    render = { props => {
         if(condition) return Component ? <Component {...props} /> : render(props);  
-        return <Redirect to="/" />;
+        return <Redirect to={redirect} />;
     }}
   />
 }

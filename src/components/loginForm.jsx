@@ -18,11 +18,13 @@ class LoginForm extends Form {
     })
 
     doSubmit = async ()=>{
+        const {state} = this.props.location;
+
         try {
             const {email, password} = this.state.data;
             await auth.login(email, password);
-    
-            window.location = '/notes';
+            
+            window.location = state ? state.redirect : '/';
         } catch (ex) {
             if(ex.response && ex.response.status == 400){
                 const errors = {...this.state.errors};
@@ -33,8 +35,11 @@ class LoginForm extends Form {
     };
 
     render() { 
+        if(auth.getCurrentUser())
+            this.props.history.replace('/');
+
         return (
-            <form className="p-3" onSubmit={this.handleSubmit}>
+            <form className="mb-3" onSubmit={this.handleSubmit}>
                 <h1 className="mb-3">Login</h1>
                 {this.renderInput("email", "Email")}
                 {this.renderInput("password", "Password", 'password')}

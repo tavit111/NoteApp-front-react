@@ -38,7 +38,10 @@ class RegisterForm extends Form {
     }
 
     render() { 
-        return <form className="m-3" onSubmit={this.handleSubmit} >
+        if(auth.getCurrentUser())
+            this.props.history.replace('/');
+
+        return <form className="mb-3" onSubmit={this.handleSubmit} >
             <h1>Register</h1>
             {this.renderInput("name", "Name")}
             {this.renderInput("email", "Email")}

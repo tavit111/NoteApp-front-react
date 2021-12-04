@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './button';
+import Input from './input';
 
 
 class Form extends React.Component {
@@ -59,20 +60,14 @@ class Form extends React.Component {
     renderInput = (name, lable, type="input")=>{
         const {data, errors} = this.state;
 
-        return (
-        <div className="mt-3 mb-3" >
-            <label htmlFor={name} className="form-label">{lable}</label>
-            <input type={type} name={name} value={data[name]} onChange={this.handleChange} className="form-control" id={name} placeholder={`${lable}...`} />
-            {errors[name] && <div className="alert alert-danger" role="alert">{errors[name]}</div>}
-        </div>
-        );
+        return <div className="mt-3"><Input name={name} lable={lable} type={type} data={data} onChange={this.handleChange} errors={errors}/></div>
     }
 
     renderTextArea = (name, lable, maxCharacters=false)=>{
         const {data, errors} = this.state;
 
         return (
-            <div className="mb-3">
+            <div className="mt-3">
                 <label htmlFor={name} className="form-label">{lable}</label>
                 <textarea name={name} value={data[name]} onChange={this.handleChange} className="form-control" id={name} rows="3" maxLength={maxCharacters} placeholder={`${lable}...`}></textarea>
                 {maxCharacters && <small className="fw-light">{`${data[name].length}/${maxCharacters}`}</small>}
@@ -82,7 +77,7 @@ class Form extends React.Component {
     }
 
     renderButton = (lable, type="submit", color="primary", onClick=null)=>{
-        return  <Button lable={lable} type={type} color={color} onClick={onClick} />
+        return  <div className="mt-3"><Button lable={lable} type={type} color={color} onClick={onClick} /></div>
     }
 }
  

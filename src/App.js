@@ -7,8 +7,8 @@ import NoteForm from "./components/noteForm";
 import LoginForm from "./components/loginForm";
 import Logout from "./components/logout";
 import RegisterForm from "./components/registerForm";
-import ProtectedRout from "./components/common/protectedRout";
-import ConditionalRout from "./components/common/conditionalRout";
+import ProtectedRoute from "./components/common/protectedRoute";
+import NotFound from "./components/notFound";
 
 class App extends React.Component {
   state = {};
@@ -24,18 +24,18 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <NavBar user={user} />
-        <Switch>
-          <Route path="/notes/:id" component={NoteForm} />
-          <ConditionalRout on={user} path="/notes" component={Notes} />
-          <ConditionalRout on={!user} path="/login" component={LoginForm} />
-          <Route path="/logout" component={Logout} />
-          <ConditionalRout
-            on={!user}
-            path="/register"
-            component={RegisterForm}
-          />
-          {/* <Redirect from="/" to="/notes" />  */}
-        </Switch>
+        <div class="container mt-5">
+          <Switch>
+            <ProtectedRoute path="/notes/:id" component={NoteForm} />
+            <ProtectedRoute path="/notes" component={Notes} />
+            <Route path="/login" component={LoginForm} />
+            <Route path="/logout" component={Logout} />
+            <Route path="/register" component={RegisterForm} />
+            <Route path="/not-found" component={NotFound} />
+            <Redirect from="/" exact to="/notes" />
+            <Redirect to="/not-found" />
+          </Switch>
+        </div>
       </React.Fragment>
     );
   }
@@ -44,6 +44,6 @@ class App extends React.Component {
 export default App;
 
 // TO DO:
-// - remove delete button when creating new note
-// - compare error handling with movie forms
-// -conditionla rendering redirect wherer you came from
+// look for insirations for fornt end
+// implement categoris
+// -add toast
