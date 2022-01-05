@@ -39,12 +39,16 @@ class LoginForm extends Form {
             this.props.history.replace('/');
 
         return (
-            <form className="mb-3" onSubmit={this.handleSubmit}>
-                <h1 className="mb-3">Login</h1>
-                {this.renderInput("email", "Email")}
-                {this.renderInput("password", "Password", 'password')}
-                {this.renderButton("Login")}
-            </form>)
+            <div className="container">
+                <form className="mb-3 mt-5" onSubmit={this.handleSubmit}>
+                    <h1 className="mb-3">Login</h1>
+                    {this.renderInput("email", "Email")}
+                    {this.renderInput("password", "Password", 'password')}
+                    <div className="m-3"></div>
+                    {this.renderButton("Login")}
+                </form>
+            </div>
+            )
     }
 }
  

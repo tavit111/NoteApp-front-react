@@ -1,10 +1,12 @@
 import React from 'react';
+import _ from 'lodash';
 import pagination from '../../utils/pagination';
 
 const Pagination = ({pageSize, currentPage, itemsCount, onPageChange}) => {
 
-   
-    const pageNumbers = pagination.getPages(pageSize, itemsCount);
+    const pageCount = Math.ceil(itemsCount / pageSize);
+    if (pageCount === 1) return null;
+    const pageNumbers = _.range(1, pageCount + 1);
 
     const isActive = pageNumber => pageNumber === currentPage ? 'active' : '';
 

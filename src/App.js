@@ -24,18 +24,17 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <NavBar user={user} />
-        <div class="container mt-5">
-          <Switch>
-            <ProtectedRoute path="/notes/:id" component={NoteForm} />
-            <ProtectedRoute path="/notes" component={Notes} />
-            <Route path="/login" component={LoginForm} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/register" component={RegisterForm} />
-            <Route path="/not-found" component={NotFound} />
-            <Redirect from="/" exact to="/notes" />
-            <Redirect to="/not-found" />
-          </Switch>
-        </div>
+
+        <Switch>
+          <ProtectedRoute path="/notes/:id" component={NoteForm} />
+          <ProtectedRoute path="/notes" component={Notes} />
+          <Route path="/login" component={LoginForm} />
+          <Route path="/logout" component={Logout} />
+          <Route path="/register" component={RegisterForm} />
+          <Route path="/not-found" component={NotFound} />
+          <Redirect from="/" exact to="/notes" />
+          <Redirect to="/not-found" />
+        </Switch>
       </React.Fragment>
     );
   }
@@ -44,6 +43,10 @@ class App extends React.Component {
 export default App;
 
 // TO DO:
-// look for insirations for fornt end
-// implement categoris
+// solve full page load when click on note
+// implement categoris:
+// - check in mosh how he did "emmit function"
+// - responsive category bar with menu
+// compare implementation of categoris with mosh: services, handleCategoryChange, filterCategory, populateCategory, "all categry in state", render category menu, choose category in forms
 // -add toast
+// - in ListNotes marge card() into ListGroups and make it unreusable component

@@ -41,13 +41,16 @@ class RegisterForm extends Form {
         if(auth.getCurrentUser())
             this.props.history.replace('/');
 
-        return <form className="mb-3" onSubmit={this.handleSubmit} >
-            <h1>Register</h1>
-            {this.renderInput("name", "Name")}
-            {this.renderInput("email", "Email")}
-            {this.renderInput("password", "Password", "password")}
-            {this.renderButton("Register")}
-        </form>
+        return <div className="container">
+            <form className="mb-3 mt-5" onSubmit={this.handleSubmit} >
+                <h1>Register</h1>
+                {this.renderInput("name", "Name")}
+                {this.renderInput("email", "Email")}
+                {this.renderInput("password", "Password", "password")}
+                <div className="m-3"></div>
+                {this.renderButton("Register")}
+            </form>
+        </div>
     }
 }
  

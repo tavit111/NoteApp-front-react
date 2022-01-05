@@ -41,7 +41,7 @@ class Form extends React.Component {
         if(errorMessage) errors[input.name] = errorMessage;
         else delete errors[input.name];
 
-        this.setState({data, errors});
+        this.setState({data});
 
     }
     
@@ -50,7 +50,7 @@ class Form extends React.Component {
 
         const errors = this.validate(this.state.data);
         this.setState({errors: errors || {}});
-        if(errors) return;
+        if(errors) return
 
         this.doSubmit();
     }
@@ -76,8 +76,22 @@ class Form extends React.Component {
         )
     }
 
-    renderButton = (lable, type="submit", color="primary", onClick=null)=>{
-        return  <div className="mt-3"><Button lable={lable} type={type} color={color} onClick={onClick} /></div>
+    renderButton = (lable, type="submit", color="primary", onClick=null, rest={})=>{
+        return  <Button lable={lable} type={type} color={color} onClick={onClick} {...rest} />
+    }
+
+    renderSelectDropDown = (name, lable, items)=>{
+        const {data} = this.state;
+
+        return (
+            <div className="mt-3">
+                <label htmlFor={name} className="form-label">{lable}</label>
+                <select className="form-select" value={data[name]} name={name} id={name} onChange={this.handleChange} aria-label="Default select example">
+                    <option value={""}>All</option>
+                    {items.map(item => <option value={item._id} key={item._id}>{item.name}</option> )}
+                </select>
+            </div>
+        )
     }
 }
  

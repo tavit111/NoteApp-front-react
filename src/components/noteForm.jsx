@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './common/form';
 import Joi from 'joi';
 import noteService from "../services/noteServices";
+import categoriesService from "../services/categoriesService";
 
 
 class NoteForm extends Form {
@@ -9,18 +10,28 @@ class NoteForm extends Form {
         data: {
             title: "",
             body: "",
+            category: "",
         },
+        categories: [],
         errors: {},
     }
     
     componentDidMount() {
         this.populateNote();
+        this.populateCategories();
     }
 
     schema = Joi.object({
         title: Joi.string().min(1).max(100).required().label("Title"),
         body: Joi.string().allow('').max(999).label("Note"),
+        category: Joi.string().allow("").label("Category")
     })
+
+    populateCategories = async ()=>{
+        const {data: categories} = await categoriesService.getCategories();
+
+        this.setState({categories});
+    }
 
     populateNote = async()=>{
         if(this.props.match.params.id === "new")
@@ -41,17 +52,18 @@ class NoteForm extends Form {
         return {
             title: data.title,
             body: data.body,
+            category: !data.category ? "" : data.category,
         }
     }
 
     doSubmit = async ()=>{
-        const {title, body} = this.state.data;
+        const {title, body, category} = this.state.data;
         const {id} = this.props.match.params;
         try {
             if(id === "new")
-                await noteService.createNote(title, body);
+                await noteService.createNote(title, body, category);
             else
-                await noteService.updateNote(id, title, body);
+                await noteService.updateNote(id, title, body, category);
             
             this.props.history.push('/notes');
         } catch (ex) {
@@ -72,12 +84,14 @@ class NoteForm extends Form {
 
     render() {
         const {id} = this.props.match.params;
+        const {categories} = this.state;
 
         return (
             <form onSubmit={this.handleSubmit} className="p-3">
                 {this.renderInput("title", "Title")}
+                {this.renderSelectDropDown("category", "Category", categories)}
                 {this.renderTextArea("body", "Write a note", 999)}
-                <div className="d-flex">
+                <div className="d-flex mt-3">
                     {this.renderButton("Save")}
                     {id !== "new" && this.renderButton("Delete", "button", 'danger', this.handleDelete)}
                 </div>

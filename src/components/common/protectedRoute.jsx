@@ -1,10 +1,8 @@
-import { render } from '@testing-library/react';
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import auth from '../../services/authService'
 
-
-const ProtectedRoute = ({component: Component, rendre, ...rest}) => {
+const ProtectedRoute = ({component: Component, render, ...rest}) => {
     const user = auth.getCurrentUser();
 
 

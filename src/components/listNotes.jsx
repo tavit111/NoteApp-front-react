@@ -1,11 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
-import ListGroutps from './common/listGroup';
 import {FaTrashAlt} from 'react-icons/fa';
 
 
-// THINKING ABOUT: makien lsitGroup an base class which will extend this class
+// THINKING ABOUT: keep card logic in seperate function or in the render()
 class ListNotes extends React.Component {
     
     renderDate = timestamp => {
@@ -13,7 +12,7 @@ class ListNotes extends React.Component {
     }
 
     renderCard = (note) =>{
-        const {_id, title, body, date} = note;
+        const {_id, title, body, date, category} = note;
         const {activeDeleting} = this.props;
         let linkClass = "list-group-item list-group-item-action";
         
@@ -27,12 +26,12 @@ class ListNotes extends React.Component {
         }
 
         return (
-        <Link to={`/notes/${_id}`} className={linkClass} key={_id} aria-current="true" onClick={(e)=> onDelete(e, note)} >
+        <Link to={`/notes/${_id}`} className={linkClass} key={_id}  onClick={(e)=> onDelete(e, note)} >
             <div className="d-flex align-items-center">
                 {renderTrashButton}
                 <div className="d-flex flex-column flex-grow-1">
                     <h5>{title}</h5>
-                    <small>{body}</small>
+                    {category && <h6>{category.name}</h6>}
                 </div>
                     <small className="align-self-start">{this.renderDate(date)}</small>
             </div>
@@ -40,9 +39,38 @@ class ListNotes extends React.Component {
     }
 
     render() { 
-        const {notes} = this.props;
+        const {notes, activeDeleting} = this.props;
 
-        return <ListGroutps items={notes} renderCard={this.renderCard} />;
+        let linkClass = "list-group-item list-group-item-action";
+        
+        let onDelete = null;
+        let renderTrashButton = null;
+
+        if(activeDeleting){
+            onDelete = this.props.onDelete;
+            linkClass +=  " link-danger";
+            renderTrashButton = <div className="m-3 ms-1 me-4"><FaTrashAlt size="1.2em" /></div>
+        }
+
+        // return <ListGroutps items={notes} renderCard={this.renderCard} />;
+        return (
+                <div className="list-group">
+                    {notes.map(note => {
+                        const {_id, title, date, category} = note;
+
+                        return (<Link to={`/notes/${_id}`} className={linkClass} key={_id}  onClick={(e)=> onDelete(e, note)} >
+                            <div className="d-flex align-items-center">
+                                {renderTrashButton}
+                                <div className="d-flex flex-column flex-grow-1">
+                                    <h5>{title}</h5>
+                                    {category && <h6>{category.name}</h6>}
+                                </div>
+                                    <small className="align-self-start">{this.renderDate(date)}</small>
+                            </div>
+                        </Link>  )              
+                    })}
+                </div>
+        )
     }
 }
  
