@@ -43,10 +43,6 @@ class App extends React.Component {
 export default App;
 
 // TO DO:
-// solve full page load when click on note
 // implement categoris:
-// - check in mosh how he did "emmit function"
 // - responsive category bar with menu
-// compare implementation of categoris with mosh: services, handleCategoryChange, filterCategory, populateCategory, "all categry in state", render category menu, choose category in forms
 // -add toast
-// - in ListNotes marge card() into ListGroups and make it unreusable component
