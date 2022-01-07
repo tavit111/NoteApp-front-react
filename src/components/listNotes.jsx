@@ -25,7 +25,6 @@ class ListNotes extends React.Component {
         }
 
         return (
-            // fix this
             <Link to={`/notes/${_id}`} className={linkClass} key={_id} onClick={(e)=> onDelete(e, note)}>
                 <div className="d-flex align-items-center">
                     {renderTrashButton}

@@ -10,7 +10,6 @@ import SortDropDown from './common/sortDropDown';
 import Pagination from './common/pagination';
 import {GoPlus} from 'react-icons/go';
 import CategoriesNavBar from './categoriesNavBar';
-import { FaThinkPeaks } from 'react-icons/fa';
 
 
 
@@ -94,6 +93,19 @@ class Notes extends React.Component {
         }
     }
 
+    handleDeleteCatrgory = async (category)=>{
+        const oldCategories = [...this.state.categories];
+
+        try{
+            const categories = oldCategories.filter(c => c._id !== category._id );
+            await categoriesService.deleteCategory(category._id);
+            
+            this.setState({categories, selectedCategory: null});
+        }catch(ex){
+            this.setState({categories: oldCategories})
+        };
+    }
+
     handleSort = currentSortMethod =>{
         this.setState({currentSortMethod})
     }
@@ -145,7 +157,7 @@ class Notes extends React.Component {
 
         return( 
             <React.Fragment>
-                <CategoriesNavBar selected={selectedCategory} categories={categories} onCategorieChange={this.handleCategorieChange} onCategoryAdd={this.handleCategoryAdd} />
+                <CategoriesNavBar selected={selectedCategory} categories={categories} onCategorieChange={this.handleCategorieChange} onCategoryAdd={this.handleCategoryAdd} onCategoryDelete={this.handleDeleteCatrgory} />
                 <div className="container">
                         <div className="d-flex align-items-end mb-1 mt-5">
                             <Button lable={<div><GoPlus /> Add Note</div>} onClick={()=> this.props.history.push("/notes/new")} color="outline-primary" />

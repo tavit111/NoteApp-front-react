@@ -43,6 +43,5 @@ class App extends React.Component {
 export default App;
 
 // TO DO:
-// implement categoris:
-// - responsive category bar with menu
+// - remove files form stagein are (reverse git add .)
 // -add toast
