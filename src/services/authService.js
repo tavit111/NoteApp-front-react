@@ -1,8 +1,7 @@
 import jwtDecode from "jwt-decode";
 import http from "./httpService";
-import config from "../config.json";
 
-const apiEndpoint = `${config.apiUrl}/auth`;
+const apiEndpoint = `${process.env.REACT_APP_API_URL}/auth`;
 const tokenKey = "note-app-token";
 
 http.setToken(getToken());

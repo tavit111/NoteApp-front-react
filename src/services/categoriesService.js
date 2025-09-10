@@ -1,7 +1,6 @@
 import http from "./httpService";
-import config from "../config.json";
 
-const apiEndpoint = `${config.apiUrl}/categories`;
+const apiEndpoint = `${process.env.REACT_APP_API_URL}/categories`;
 
 function getCategories() {
   return http.get(apiEndpoint);

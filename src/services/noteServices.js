@@ -1,7 +1,6 @@
 import http from "./httpService";
-import config from "../config.json";
 
-const apiEndpoint = `${config.apiUrl}/notes`;
+const apiEndpoint = `${process.env.REACT_APP_API_URL}/notes`;
 
 function getNotes() {
   return http.get(apiEndpoint);

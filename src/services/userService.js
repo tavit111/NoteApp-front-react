@@ -1,7 +1,6 @@
 import http from "./httpService";
-import config from "../config.json";
 
-const apiEndpoint = `${config.apiUrl}/user`;
+const apiEndpoint = `${process.env.REACT_APP_API_URL}/user`;
 
 function register(name, email, password) {
   return http.post(apiEndpoint, { name, email, password });
